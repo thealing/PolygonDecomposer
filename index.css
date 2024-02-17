@@ -1,0 +1,116 @@
+* {
+  --min-content-width: 400px;
+  --min-content-height: 400px;
+  --header-height: 50px;
+  --toolbar-width: 240px;
+  --padding: 10px;
+  --border: solid 1px black;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: lightgray;
+  color: black;
+  font-family: Verdana;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  min-width: calc(var(--min-content-width) + var(--toolbar-width));
+  min-height: calc(var(--min-content-height) + var(--header-height));
+}
+
+label, input {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+}
+
+#header {
+  position: absolute;
+  width: 100%;
+  height: var(--header-height);
+  padding: var(--padding);
+  font-size: calc(var(--header-height) - 2 * var(--padding));
+  border-bottom: var(--border);
+  display: flex;
+  align-items: center;
+}
+
+#toolbar {
+  position: absolute;
+  width: var(--toolbar-width);
+  height: calc(100% - var(--header-height));
+  left: calc(100% - var(--toolbar-width));
+  top: var(--header-height);
+  border-left: var(--border);
+}
+
+#toolbar * {
+  position: relative;
+  margin: var(--padding) 0;
+  row-gap: var(--padding);
+  justify-content: center;
+}
+
+#toolbar button {
+  width: calc(100% - 2 * var(--padding));
+  padding: var(--padding);
+  margin: 0 var(--padding);
+  border: var(--border);
+}
+
+#toolbar button:hover {
+  background: darkgray;
+}
+
+#toolbar button:active {
+  background: dimgray;
+}
+
+#toolbar .container {
+  display: grid;
+  grid-template-columns: calc(var(--toolbar-width) / 2) calc(var(--toolbar-width) / 2);
+}
+
+#toolbar .container * {
+  margin: 0 var(--padding);
+  justify-content: left;
+}
+
+#toolbar .container input {
+  border: var(--border);
+}
+
+#toolbar .separator {
+  border-bottom: var(--border);
+}
+
+#content {
+  position: absolute;
+  width: calc(100% - var(--toolbar-width));
+  height: calc(100% - var(--header-height));
+  left: 0;
+  top: var(--header-height);
+  padding: var(--padding);
+  background: lightgray;
+}
+
+#content * {
+	position: relative;
+	border: var(--border);
+}
+
+#display-canvas {
+  width: 100%;
+  height: 100%;
+}
