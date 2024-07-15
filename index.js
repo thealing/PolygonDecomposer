@@ -1,32 +1,39 @@
 init();
 
 function init() {
-  canvasWidthInput = document.getElementById("canvas-width-input");
-  canvasHeightInput = document.getElementById("canvas-height-input");
-  canvasMarginInput = document.getElementById("canvas-margin-input");
-  polygonPointsInput = document.getElementById("polygon-points-input");
-  polygonGenerateButton = document.getElementById("polygon-generate-button");
-  polygonTriangulateButton = document.getElementById("polygon-triangulate-button");
+  widthInput = document.getElementById("width-input");
+  heightInput = document.getElementById("height-input");
+  marginInput = document.getElementById("margin-input");
+  clearButton = document.getElementById("clear-button");
+  pointsInput = document.getElementById("points-input");
+  generateButton = document.getElementById("generate-button");
+  triangulateButton = document.getElementById("triangulate-button");
   displayCanvas = document.getElementById("display-canvas");
   displayContext = displayCanvas.getContext("2d");
   const displayRect = displayCanvas.getBoundingClientRect();
-  canvasWidthInput.value = displayRect.width;
-  canvasHeightInput.value = displayRect.height;
+  widthInput.value = displayRect.width;
+  heightInput.value = displayRect.height;
   polygonPoints = [];
   polygonFinished = false;
   triangulation = [];
-  polygonGenerateButton.addEventListener("click", function() {
-    const width = parseInt(canvasWidthInput.value);
-    const height = parseInt(canvasHeightInput.value);
-    const margin = parseInt(canvasMarginInput.value);
-    polygonPoints = generateRandomPolygon(polygonPointsInput.value, margin, margin, width - margin, height - margin);
+  clearButton.addEventListener("click", function() {
+    polygonFinished = false;
+    polygonPoints = [];
+    triangulation = [];
+  });
+  generateButton.addEventListener("click", function() {
+    const width = parseInt(widthInput.value);
+    const height = parseInt(heightInput.value);
+    const margin = parseInt(marginInput.value);
+    polygonPoints = generateRandomPolygon(pointsInput.value, margin, margin, width - margin, height - margin);
     polygonFinished = true;
     triangulation = [];
   });
-  polygonTriangulateButton.addEventListener("click", function() {
+  triangulateButton.addEventListener("click", function() {
     if (!polygonFinished) {
       return;
     }
+    fixPolygon(polygonPoints);
     triangulation = triangulatePolygon(polygonPoints);
     if (triangulation.length != polygonPoints.length - 2) {
       throw new Error("triangulation failed");
@@ -34,9 +41,6 @@ function init() {
   });
   displayCanvas.addEventListener("mouseup", function(event) {
     if (polygonFinished) {
-      polygonFinished = false;
-      polygonPoints = [];
-      triangulation = [];
       return;
     }
     const rect = displayCanvas.getBoundingClientRect();
@@ -56,8 +60,8 @@ function init() {
 }
 
 function animate() {
-  displayCanvas.width = parseInt(canvasWidthInput.value);
-  displayCanvas.height = parseInt(canvasHeightInput.value);
+  displayCanvas.width = parseInt(widthInput.value);
+  displayCanvas.height = parseInt(heightInput.value);
   displayContext.clearRect(0, 0, displayCanvas.width, displayCanvas.height);
   if (polygonPoints.length > 0) {
     displayContext.lineWidth = 1;
@@ -74,8 +78,13 @@ function animate() {
     displayContext.strokeStyle = "blue";
     displayContext.beginPath();
     for (const t of triangulation) {
-      displayContext.moveTo(polygonPoints[t[0]].x, polygonPoints[t[0]].y);
-      displayContext.lineTo(polygonPoints[t[2]].x, polygonPoints[t[2]].y);
+      const start = t[0];
+      const end = t[2];
+      const distance = Math.abs(start - end);
+      if(distance > 1 && distance < polygonPoints.length - 1) {
+        displayContext.moveTo(polygonPoints[start].x, polygonPoints[start].y);
+        displayContext.lineTo(polygonPoints[end].x, polygonPoints[end].y);
+      }
     }
     displayContext.stroke();
   }

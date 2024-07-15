@@ -18,6 +18,16 @@ function testSegments(a1, b1, a2, b2) {
   return orient(a1, b1, a2) * orient(a1, b1, b2) < 0 && orient(a2, b2, a1) * orient(a2, b2, b1) < 0;
 }
 
+function fixPolygon(polygon) {
+  var area = 0;
+  for (var i1 = polygon.length - 1, i2 = 0; i2 < polygon.length; i1 = i2, i2++) {
+    area += polygon[i1].x * polygon[i2].y - polygon[i1].y * polygon[i2].x;
+  }
+  if (area < 0) {
+    polygon.reverse();
+  }
+}
+
 // O(n^4) but O(n^3) on average due to randomization
 function generateRandomPolygon(n, x1, y1, x2, y2) {
   var points = [];
@@ -64,6 +74,7 @@ function generateRandomPolygon(n, x1, y1, x2, y2) {
   return polygon;
 }
 
+// O(n^2)
 function triangulatePolygon(polygon) {
   var n = polygon.length;
   var v = new Array(n);

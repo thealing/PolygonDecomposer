@@ -10,18 +10,21 @@
   <div id="toolbar">
     <label>Canvas Settings</label>
     <div class="container">
-      <label title="Resolution Width">Width</label><input id="canvas-width-input" type="number" value="500"/>
-      <label title="Resolution Height">Height</label><input id="canvas-height-input" type="number" value="500" />
-      <label>Margin</label><input id="canvas-margin-input" type="number" value="50" />
+      <label title="Resolution Width">Width</label><input id="width-input" type="number" value="500"/>
+      <label title="Resolution Height">Height</label><input id="height-input" type="number" value="500" />
+      <label>Margin</label><input id="margin-input" type="number" value="50" />
     </div>
+    <div class="separator"></div>
+    <label>Drawing</label>
+    <button id="clear-button">Clear</button>
     <div class="separator"></div>
     <label>Random Polygon</label>
     <div class="container">
-      <label>Points</label><input id="polygon-points-input" type="number" value="10" />
+      <label>Points</label><input id="points-input" type="number" value="10" />
     </div>
-    <button id="polygon-generate-button">Generate</button>
+    <button id="generate-button">Generate</button>
     <div class="separator"></div>
-    <button id="polygon-triangulate-button">Triangulate</button>
+    <button id="triangulate-button">Triangulate</button>
     <div class="separator"></div>
   </div>
   <div id="content">
@@ -32,4 +35,3 @@
   <script src="index.js"></script>
 </body>
 </html>
-

@@ -65,7 +65,7 @@ label, input {
 #toolbar button {
   width: calc(100% - 2 * var(--padding));
   padding: var(--padding);
-  margin: 0 var(--padding);
+  margin: 0 0 var(--padding) var(--padding);
   border: var(--border);
 }
 
@@ -92,6 +92,7 @@ label, input {
 }
 
 #toolbar .separator {
+  margin-top: 0;
   border-bottom: var(--border);
 }
 
